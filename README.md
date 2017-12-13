@@ -13,11 +13,6 @@ In this project, a PID controller was implemented in C++ to maneuver the vehicle
 
 The simulator provides the cross track error (CTE) and the velocity (mph) in order the PID controller to compute the appropriate steering angle.
 
-[//]: # (Image References)
-
-[image1]: ./output_images/35mph.png =550x350 "Throttle 0.3"
-[image3]: ./output_images/75mph.png =550x350 "Throttle 0.7"
-
 ## Compilation
 
 Code compiles without errors with cmake and make. 
@@ -58,6 +53,10 @@ P component provides the steering angle to be in proportion to the cross track e
 
 K<sub>p</sub> paramater has been used as `0.109` (as twiddle suggested) in the final implementation.
 
+The following video shows the when the PID controller running without P parameter. The steering angle does not change in proportion to cte and the vehicle eventually goes out of track. 
+
+[![no P](./output_images/nop.png =550x350)](./video/PID_Control_Video_nop.mov)
+
 ### I (Integral)
 
 I component provides the steering angle to be in proportion to the accumulated cross track error (cte) to overcome systematic bias in the system.
@@ -70,6 +69,9 @@ D component provides the steering angle to be in proportion to the rate of chang
  
 K<sub>d</sub> paramater has been used as `5.13513` (as twiddle suggested) in the final implementation.
 
+The following video shows the when the PID controller running without D parameter. The steering angle continously changes back and forth of the center line (cannot stick to the center line) and the vehicle quickly goes out of track.
+
+[![no D](./output_images/nod.png =550x350)](./video/PID_Control_Video_nod.mov)
 
 ## Simulation
 
@@ -77,13 +79,13 @@ After tuning the hyperparameters, I first tried the parameters with a constant t
 
 A complete lap of the vehicle can seen in the following video with this configuration.
 
-[![IMAGE ALT TEXT HERE](./output_images/35mph.png =550x350)](./video/PID_Control_Video_35mph.mov)
+[![fixed throttle 0.3](./output_images/35mph.png =550x350)](./video/PID_Control_Video_35mph.mov)
 
 Then, I tried higher constant throttle values up to `0.7` to be able to see how fast the vehicle can still go safely with the same parameters. I observed that it goes slightly over curbs or lines for some curves with `0.7`. Finally I tried a variable throttle setting allowing the throttle between `0.3` and` 0.7`. I did not implement a separate pid controller for the throttle, however, I tried a simple setup which is inversely proportional to the steering angle, to slightly reduce the speed especially within the curves. I kept this final configuration and I observed a maximum speed of `71 mph`.    
 
 A complete lap of the vehicle can seen in the following video with this configuration.
 
-[![IMAGE ALT TEXT HERE](./output_images/70mph.png =550x350)](./video/PID_Control_Video_70mph.mov)
+[![variable throttle 0.3-0.7](./output_images/70mph.png =550x350)](./video/PID_Control_Video_70mph.mov)
 
 
 ## Dependencies
